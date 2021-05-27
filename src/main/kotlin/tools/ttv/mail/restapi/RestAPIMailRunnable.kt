@@ -27,17 +27,17 @@ class RestAPIMailRunnable(private val restAPIMailManager: RestAPIMailManager) : 
 
             override fun onResponse(call: Call, response: Response) {
                 response.body.use { responseBody ->
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                    restAPIMailManager.gson.fromJson(responseBody!!.string(), GetEmailModel::class.java)
-                        .data
-                        .sessions
-                        .forEach { session ->
-                            restAPIMailManager
-                                .mailConsumers
-                                .filter { entry: Map.Entry<String, Consumer<Mail>> -> entry.key == session.id }
-                                .forEach { stringConsumerEntry ->
-                                    if (session.mails.isNotEmpty()) {
-                                        stringConsumerEntry.value.accept(session.mails[0])
+                    if (!response.isSuccessful)
+                        restAPIMailManager.gson.fromJson(responseBody!!.string(), GetEmailModel::class.java)
+                            .data
+                            .sessions
+                            .forEach { session ->
+                                restAPIMailManager
+                                    .mailConsumers
+                                    .filter { entry: Map.Entry<String, Consumer<Mail>> -> entry.key == session.id }
+                                    .forEach { stringConsumerEntry ->
+                                        if (session.mails.isNotEmpty()) {
+                                            stringConsumerEntry.value.accept(session.mails[0])
                                         restAPIMailManager.mailConsumers.remove(stringConsumerEntry.key)
                                     }
                                 }

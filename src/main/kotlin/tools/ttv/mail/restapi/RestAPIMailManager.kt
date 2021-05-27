@@ -1,22 +1,18 @@
 package tools.ttv.mail.restapi
 
 import com.google.gson.GsonBuilder
-import lombok.Getter
 import okhttp3.*
+import tools.ttv.mail.restapi.model.CreateEmailRequest
 import tools.ttv.mail.restapi.model.Mail
-import tools.ttv.mail.restapi.CreateEmailRequest
 import java.io.IOException
-import kotlin.Throws
-import tools.ttv.mail.restapi.RestAPIMailRunnable
 import java.util.*
 import java.util.function.Consumer
 
 class RestAPIMailManager {
     val client = OkHttpClient()
-
     val gson = GsonBuilder().create()!!
-
     val mailConsumers = HashMap<String, Consumer<Mail>>()
+
     fun createMail(email: Consumer<String>, incomingMail: Consumer<Mail>) {
         initSession { createEmailRequest: CreateEmailRequest ->
             val introduceSession = createEmailRequest.data.introduceSession
