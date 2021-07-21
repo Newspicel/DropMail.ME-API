@@ -27,7 +27,7 @@ class RestAPIMailRunnable(private val restAPIMailManager: RestAPIMailManager) : 
 
             override fun onResponse(call: Call, response: Response) {
                 response.body.use { responseBody ->
-                    if (!response.isSuccessful)
+                    if (response.isSuccessful)
                         restAPIMailManager.gson.fromJson(responseBody!!.string(), GetEmailModel::class.java)
                             .data
                             .sessions
