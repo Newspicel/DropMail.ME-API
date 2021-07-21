@@ -2,7 +2,7 @@
 import tools.ttv.mail.RestAPIMailService
 import tools.ttv.mail.restapi.model.Mail
 
-object Example {
+object KotlinExample {
 
     @JvmStatic
     fun main(args: Array<String>) {
